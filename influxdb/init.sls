@@ -45,6 +45,7 @@ remove_influxdb_init_symlink:
     - onlyif:
       - 'test -L {{ influxdb_settings.init_dir }}/{{ influxdb_settings.service }}'
 
+{% if influxdb_settings.tmpl.get('sysvinit_script', None) is not none %}
 influxdb_init:
   file.managed:
     - name: {{ influxdb_settings.init_dir }}/{{ influxdb_settings.service }}
@@ -53,6 +54,7 @@ influxdb_init:
     - group: root
     - mode: 755
     - template: jinja
+{% endif %}
 
 influxdb_group:
   group.present:

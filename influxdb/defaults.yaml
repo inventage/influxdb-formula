@@ -18,6 +18,7 @@
       config: 'salt://influxdb/files/influxdb_0.8.config.toml.jinja'
       sysvinit_script: 'salt://influxdb/files/influxdb_0.8.sysvinit.jinja'
       logrotate: 'salt://influxdb/files/logrotate.conf.jinja'
+
 0_9_0:
   influxdb:
     conf:
@@ -60,6 +61,7 @@
       etc_default: 'salt://influxdb/files/influxdb_0.9.etc_default'
       sysvinit_script: 'salt://influxdb/files/influxdb_0.9.sysvinit.jinja'
       logrotate: 'salt://influxdb/files/logrotate.conf.jinja'
+
 0_9_3: &0_9_3
   influxdb:
     conf:
@@ -115,3 +117,54 @@
 0_9_4:
   # Merge 0.9.3
   <<: *0_9_3
+
+0_9_5:
+  influxdb:
+    conf:
+      authentication:
+        enabled: 'false'
+      admin:
+        enabled: 'true'
+        bind_address: ':8083'
+      http:
+        enabled: 'true'
+        bind_address: ':8086'
+        auth_enabled: 'false'
+      broker:
+        enabled: 'true'
+        dir: '/var/influxdb/raft'
+      collectd:
+        enabled: 'false'
+      meta:
+        dir: '/var/influxdb/meta'
+        enabled: 'true'
+        bind_address: ':8088'
+        reporting_disabled: 'false'
+      data:
+        dir: '/var/influxdb/db'
+        enabled: 'true'
+        retention_auto_create: 'true'
+        retention_check_enabled: 'true'
+        retention_check_period: '10m'
+        wal_dir: '/var/influxdb/wal'
+      hinted_handoff:
+        dir: '/var/influxdb/hh'
+        enabled: 'true'
+      initialization:
+        join_urls: ''
+      logging:
+        directory: '/var/log/influxdb'
+        file: 'influxd.log'
+        write_tracing: 'false'
+        raft_tracing: 'false'
+      opentsdb:
+        enabled: 'false'
+      snapshot:
+        bind_address: '127.0.0.1:8087'
+        enabled: 'true'
+      udp:
+        enabled: 'false'
+    tmpl:
+      config: 'salt://influxdb/files/influxdb_0.9.3.config.toml.jinja'
+      etc_default: 'salt://influxdb/files/influxdb_0.9.5.etc_default'
+      logrotate: 'salt://influxdb/files/logrotate.conf.jinja'
